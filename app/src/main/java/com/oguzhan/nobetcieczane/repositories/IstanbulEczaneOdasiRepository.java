@@ -5,6 +5,7 @@ import android.net.ParseException;
 import android.util.Log;
 
 import com.oguzhan.nobetcieczane.exceptions.ParseWebSiteException;
+import com.oguzhan.nobetcieczane.model.Pharmacy;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -26,8 +27,9 @@ import okhttp3.Response;
 
 /**
  * the data coming from [https://www.istanbuleczaciodasi.org.tr] website
+ * we are not using this repository right now
  */
-public class IstanbulEczaneOdasiRepository {
+public class IstanbulEczaneOdasiRepository extends Repository {
     private static final String TAG = "asd";
     private String baseUrl = "https://www.istanbuleczaciodasi.org.tr/";
 
@@ -35,8 +37,6 @@ public class IstanbulEczaneOdasiRepository {
 
 
     public String[] getCounties() throws IOException {
-
-
         // jx=1&islem=get_ilce&il=34&h=497a346e46306135355737354e513d3d
         FormBody formBody = new FormBody.Builder()
                 .add("jx", "1")
@@ -63,12 +63,6 @@ public class IstanbulEczaneOdasiRepository {
                 .add("accept-language","tr-TR,tr;q=0.9,en-US;q=0.8,en;q=0.7")
                 .add("cookie","COOKIE_DEVICE=desktop; PHPSESSID=f2j3o4koultprk6ofa8o4cvgu8; _ga=GA1.3.100787392.1640201868; _gid=GA1.3.1455518294.1640201868; _gat=1")
     .build();
-
-
-
-
-
-
         Request request = new Request.Builder()
                 .url(baseUrl + "/nobetci-eczane/index.php")
                 .headers(headers)
@@ -114,4 +108,10 @@ public class IstanbulEczaneOdasiRepository {
 
     }
 
+
+
+    @Override
+    public Pharmacy[] getPharmacies(String city, String county) {
+        return new Pharmacy[0];
+    }
 }

@@ -1,6 +1,6 @@
 package com.oguzhan.nobetcieczane.model;
 
-public class Pharmacy {
+abstract public class Pharmacy {
 
     private String name;
     private String address;

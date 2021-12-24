@@ -8,12 +8,14 @@ import androidx.lifecycle.ViewModel;
 import com.oguzhan.nobetcieczane.exceptions.ParseWebSiteException;
 import com.oguzhan.nobetcieczane.model.Pharmacy;
 import com.oguzhan.nobetcieczane.repositories.EczanelerGenTrRepository;
+import com.oguzhan.nobetcieczane.repositories.NosyRepository;
+import com.oguzhan.nobetcieczane.repositories.Repository;
 import com.oguzhan.nobetcieczane.utils.FetchingStatus;
 
 import java.io.IOException;
 
 public class MainActivityViewModel extends ViewModel {
-    private EczanelerGenTrRepository repository = new EczanelerGenTrRepository();
+    private Repository repository = new NosyRepository();
 
     public MutableLiveData<Pharmacy[]> pharmacies = new MutableLiveData<Pharmacy[]>();
 
@@ -30,15 +32,10 @@ public class MainActivityViewModel extends ViewModel {
         @Override
         protected Void doInBackground(Void... voids) {
             Pharmacy[] pharmacies = new Pharmacy[0];
-            try {
-                countriesStatus.postValue(FetchingStatus.loadingStatus());
-                pharmacies = repository.getPharmacies();
-            }  catch (IOException e) {
-                countriesStatus.postValue(FetchingStatus.errorStatus("Beklenmeyen bir hata meydana geldi"));
-                e.printStackTrace();
-            } catch (ParseWebSiteException e) {
-                e.printStackTrace();
-            }
+
+            countriesStatus.postValue(FetchingStatus.loadingStatus());
+            pharmacies = repository.getPharmacies("istanbul", "avcilar");
+
             MainActivityViewModel.this.pharmacies.postValue(pharmacies);
             countriesStatus.postValue(FetchingStatus.successStatus(null));
             return null;
