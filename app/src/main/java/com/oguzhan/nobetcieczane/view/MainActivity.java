@@ -1,7 +1,6 @@
 package com.oguzhan.nobetcieczane.view;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.os.Bundle;
@@ -32,12 +31,12 @@ public class MainActivity extends AppCompatActivity {
         MainActivityViewModel viewModel = new ViewModelProvider(this).get(MainActivityViewModel.class);
 
 
-        viewModel.counties.observe(this, counties -> {
+        viewModel.pharmacies.observe(this, pharmacies -> {
 
 
 
-            for (int i = 0; i < counties.length; i++) {
-                Log.d(TAG, "onCreate:  " + counties[i]);
+            for (int i = 0; i < pharmacies.length; i++) {
+                Log.d(TAG, "onCreate:  " + pharmacies[i].getName());
             }
 
         });
