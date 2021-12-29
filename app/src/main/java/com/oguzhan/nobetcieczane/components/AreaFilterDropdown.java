@@ -10,6 +10,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
@@ -49,17 +50,54 @@ public class AreaFilterDropdown extends LinearLayout {
 
     private void init() {
         setOrientation(HORIZONTAL);
-        countySpinner = new Spinner(getContext());
+        setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        ViewGroup.LayoutParams equalsAreaParams = new LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1);
+
+
+
+        LinearLayout citySection = new LinearLayout(getContext());
+        citySection.setOrientation(VERTICAL);
+        TextView cityLabel = new TextView(getContext());
+
+        cityLabel.setText("Şehir");
+        cityLabel.setPadding(20,10,0,2);
+        cityLabel.setTextSize(12);
+
+
+
+
         citySpinner = new Spinner(getContext());
-        addView(citySpinner);
-        View spaceView = new View(getContext());
-        spaceView.setLayoutParams(new LayoutParams(10, 0));
-        addView(spaceView);
-        addView(countySpinner);
 
 
-        citySpinner.setLayoutParams(new LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1));
-        countySpinner.setLayoutParams(new LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1));
+
+        citySection.addView(cityLabel);
+        citySection.addView(citySpinner);
+
+        citySection.setLayoutParams(equalsAreaParams);
+        addView(citySection);
+
+
+        View verticalDivider = new View(getContext());
+        verticalDivider.setBackgroundColor(getResources().getColor(R.color.grey));
+        addView(verticalDivider, new ViewGroup.LayoutParams(2,ViewGroup.LayoutParams.MATCH_PARENT));
+
+
+        LinearLayout countySection = new LinearLayout(getContext());
+        countySection.setOrientation(VERTICAL);
+        TextView countyLabel = new TextView(getContext());
+
+        countyLabel.setText("İlçe");
+        countyLabel.setPadding(20,10,0,2);
+        countyLabel.setTextSize(12);
+
+
+        countySection.addView(countyLabel);
+
+        countySpinner = new Spinner(getContext());
+        countySection.addView(countySpinner);
+        countySection.setLayoutParams(equalsAreaParams);
+        addView(countySection);
+
 
         Drawable btnShape = ContextCompat.getDrawable(getContext(), R.drawable.button_shape);
         setBackground(btnShape);
