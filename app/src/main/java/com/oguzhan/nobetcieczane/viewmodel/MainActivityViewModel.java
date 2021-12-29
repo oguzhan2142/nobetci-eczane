@@ -5,39 +5,63 @@ import android.os.AsyncTask;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.oguzhan.nobetcieczane.exceptions.ParseWebSiteException;
+import com.oguzhan.nobetcieczane.model.City;
+import com.oguzhan.nobetcieczane.model.County;
+import com.oguzhan.nobetcieczane.model.LocationData;
 import com.oguzhan.nobetcieczane.model.Pharmacy;
-import com.oguzhan.nobetcieczane.repositories.EczanelerGenTrRepository;
 import com.oguzhan.nobetcieczane.repositories.NosyRepository;
 import com.oguzhan.nobetcieczane.repositories.Repository;
 import com.oguzhan.nobetcieczane.utils.FetchingStatus;
 
-import java.io.IOException;
-
 public class MainActivityViewModel extends ViewModel {
-    private Repository repository = new NosyRepository();
+    private final Repository repository = new NosyRepository();
 
-    public MutableLiveData<Pharmacy[]> pharmacies = new MutableLiveData<Pharmacy[]>();
+    public MutableLiveData<Pharmacy[]> pharmacies = new MutableLiveData<>();
+    public MutableLiveData<City[]> cities = new MutableLiveData<>();
+    public MutableLiveData<County[]> counties = new MutableLiveData<>();
 
 
-    public MutableLiveData<FetchingStatus> countriesStatus = new MutableLiveData<>(FetchingStatus.idleStatus());
+    public void getCounties(City city) {
+        new GetCountiesTask().execute(city);
 
-    public void getCounties() {
-        new GetCountiesTask().execute();
+    }
+
+    public void getPharmacies() {
+        new GetPharmaciesTask().execute();
+    }
+
+    public void getCities() {
+        new GetCitiesTask().execute();
     }
 
 
-    private class GetCountiesTask extends AsyncTask<Void, Void, Void> {
+    private class GetCountiesTask extends AsyncTask<City, Void, Void> {
+
+        @Override
+        protected Void doInBackground(City... city) {
+            County[] counties = repository.getCounties(city[0]);
+            MainActivityViewModel.this.counties.postValue(counties);
+            return null;
+        }
+    }
+
+
+    private class GetCitiesTask extends AsyncTask<Void, Void, Void> {
 
         @Override
         protected Void doInBackground(Void... voids) {
-            Pharmacy[] pharmacies = new Pharmacy[0];
+            City[] cities = repository.getCities();
+            MainActivityViewModel.this.cities.postValue(cities);
+            return null;
+        }
+    }
 
-            countriesStatus.postValue(FetchingStatus.loadingStatus());
-            pharmacies = repository.getPharmacies("istanbul", "avcilar");
+    private class GetPharmaciesTask extends AsyncTask<Void, Void, Void> {
 
+        @Override
+        protected Void doInBackground(Void... voids) {
+            Pharmacy[] pharmacies = repository.getPharmacies("istanbul", "avcilar");
             MainActivityViewModel.this.pharmacies.postValue(pharmacies);
-            countriesStatus.postValue(FetchingStatus.successStatus(null));
             return null;
         }
     }

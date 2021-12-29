@@ -1,10 +1,10 @@
 package com.oguzhan.nobetcieczane.repositories;
 
 
-import android.net.ParseException;
-import android.util.Log;
-
 import com.oguzhan.nobetcieczane.exceptions.ParseWebSiteException;
+import com.oguzhan.nobetcieczane.model.City;
+import com.oguzhan.nobetcieczane.model.County;
+import com.oguzhan.nobetcieczane.model.LocationData;
 import com.oguzhan.nobetcieczane.model.Pharmacy;
 
 import org.jsoup.Jsoup;
@@ -13,15 +13,11 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import okhttp3.FormBody;
 import okhttp3.Headers;
-import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
-import okhttp3.RequestBody;
 import okhttp3.Response;
 
 
@@ -114,4 +110,16 @@ public class IstanbulEczaneOdasiRepository extends Repository {
     public Pharmacy[] getPharmacies(String city, String county) {
         return new Pharmacy[0];
     }
+
+    @Override
+    public City[] getCities() {
+        return new City[0];
+    }
+
+    @Override
+    public County[] getCounties(City city) {
+        return new County[0];
+    }
+
+
 }

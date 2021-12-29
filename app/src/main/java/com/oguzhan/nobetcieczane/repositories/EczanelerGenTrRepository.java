@@ -1,6 +1,9 @@
 package com.oguzhan.nobetcieczane.repositories;
 
 import com.oguzhan.nobetcieczane.exceptions.ParseWebSiteException;
+import com.oguzhan.nobetcieczane.model.City;
+import com.oguzhan.nobetcieczane.model.County;
+import com.oguzhan.nobetcieczane.model.LocationData;
 import com.oguzhan.nobetcieczane.model.EczanelerGenTrPharmacy;
 import com.oguzhan.nobetcieczane.model.Pharmacy;
 
@@ -101,4 +104,16 @@ public class EczanelerGenTrRepository extends Repository {
         //TODO:unimplemented yet
         throw new UnsupportedOperationException();
     }
+
+    @Override
+    public City[] getCities() {
+        return new City[0];
+    }
+
+    @Override
+    public County[] getCounties(City city) {
+        return new County[0];
+    }
+
+
 }

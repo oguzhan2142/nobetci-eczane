@@ -5,12 +5,16 @@ import androidx.lifecycle.ViewModelProvider;
 
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
+import android.view.View;
 import android.widget.ImageButton;
-import android.widget.Spinner;
 
 import com.oguzhan.nobetcieczane.R;
+import com.oguzhan.nobetcieczane.components.AreaFilterDropdown;
+import com.oguzhan.nobetcieczane.components.SearchEdittext;
+
+import com.oguzhan.nobetcieczane.interfaces.LocationDataSelectedListener;
+import com.oguzhan.nobetcieczane.model.City;
+import com.oguzhan.nobetcieczane.model.LocationData;
 import com.oguzhan.nobetcieczane.viewmodel.MainActivityViewModel;
 
 public class MainActivity extends AppCompatActivity {
@@ -18,7 +22,9 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = "main activity";
 
 
-    private ImageButton searchBtn, filterBtn;
+
+
+    private AreaFilterDropdown areaFilterDropdown;
 
 
 
@@ -26,17 +32,38 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        searchBtn = findViewById(R.id.searchBtn);
-        filterBtn = findViewById(R.id.filterButton);
-        Spinner countySpinner = findViewById(R.id.county_spinner);
-        String[] items = new String[0];
-        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, items);
-        countySpinner.setAdapter(spinnerAdapter);
-
         MainActivityViewModel viewModel = new ViewModelProvider(this).get(MainActivityViewModel.class);
 
 
+
+        areaFilterDropdown = findViewById(R.id.area_filter);
+
+
+
+
+
+        viewModel.cities.observe(this, cities -> {
+            areaFilterDropdown.setCities(cities);
+
+        });
+
+        viewModel.counties.observe(this, counties -> {
+            areaFilterDropdown.setCounties(counties);
+        });
+
+        areaFilterDropdown.setOnCitySelectedListener(city->{
+            if (city != null){
+                viewModel.getCounties((City)city);
+            }
+
+        });
+
+        areaFilterDropdown.setOnCountySelectedListener(county -> {
+            if (county != null) {
+                Log.d(TAG, "onCreate: secildi" + county.getName());
+
+            }
+        });
 
         viewModel.pharmacies.observe(this, pharmacies -> {
 
@@ -46,13 +73,10 @@ public class MainActivity extends AppCompatActivity {
 
         });
 
-        viewModel.countriesStatus.observe(this, fetchingStatus -> {
 
-
-
-        });
-
-
-        viewModel.getCounties();
+//        viewModel.getCounties();
+        viewModel.getCities();
     }
+
+
 }
