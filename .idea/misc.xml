@@ -3,10 +3,11 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="../../../../layout/custom_preview.xml" value="0.55" />
+        <entry key="../../../../layout/custom_preview.xml" value="0.375" />
         <entry key="app/src/main/res/drawable/button_shape.xml" value="0.2064814814814815" />
-        <entry key="app/src/main/res/layout/activity_main.xml" value="0.2375" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.335" />
         <entry key="app/src/main/res/layout/app_bar.xml" value="0.2375" />
+        <entry key="app/src/main/res/layout/pharmacy_list_item.xml" value="0.335" />
         <entry key="app/src/main/res/layout/search_edittext.xml" value="0.25" />
       </map>
     </option>

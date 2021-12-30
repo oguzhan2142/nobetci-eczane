@@ -2,24 +2,36 @@ package com.oguzhan.nobetcieczane.viewmodel;
 
 import android.os.AsyncTask;
 
+import androidx.databinding.ObservableArrayList;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.oguzhan.nobetcieczane.adapters.PharmacyAdapter;
 import com.oguzhan.nobetcieczane.model.City;
 import com.oguzhan.nobetcieczane.model.County;
 import com.oguzhan.nobetcieczane.model.LocationData;
+import com.oguzhan.nobetcieczane.model.NosyPharmacy;
 import com.oguzhan.nobetcieczane.model.Pharmacy;
 import com.oguzhan.nobetcieczane.repositories.NosyRepository;
 import com.oguzhan.nobetcieczane.repositories.Repository;
 import com.oguzhan.nobetcieczane.utils.FetchingStatus;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Objects;
+
 public class MainActivityViewModel extends ViewModel {
     private final Repository repository = new NosyRepository();
 
-    public MutableLiveData<Pharmacy[]> pharmacies = new MutableLiveData<>();
+
     public MutableLiveData<City[]> cities = new MutableLiveData<>();
     public MutableLiveData<County[]> counties = new MutableLiveData<>();
 
+    public ObservableArrayList<NosyPharmacy> pharmacies = new ObservableArrayList<>();
+
+    public City selectedCity;
+    public County selectedCounty;
 
     public void getCounties(City city) {
         new GetCountiesTask().execute(city);
@@ -60,8 +72,14 @@ public class MainActivityViewModel extends ViewModel {
 
         @Override
         protected Void doInBackground(Void... voids) {
-            Pharmacy[] pharmacies = repository.getPharmacies("istanbul", "avcilar");
-            MainActivityViewModel.this.pharmacies.postValue(pharmacies);
+            Pharmacy[] pharmacies = repository.getPharmacies(selectedCity.getValue(), selectedCounty.getValue());
+            MainActivityViewModel.this.pharmacies.clear();
+
+            for (int i = 0; i < pharmacies.length; i++) {
+                MainActivityViewModel.this.pharmacies.add((NosyPharmacy) pharmacies[i]);
+            }
+
+
             return null;
         }
     }
