@@ -2,13 +2,14 @@ plugins {
     id 'com.android.application'
 }
 
+
 android {
     compileSdk 30
 
     buildFeatures{
         dataBinding true
     }
-    
+
     defaultConfig {
         applicationId "com.oguzhan.nobetcieczane"
         minSdk 21
@@ -36,6 +37,7 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'com.google.android.material:material:1.3.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
+    implementation 'androidx.compose.animation:animation-core:1.0.0-beta04'
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
@@ -46,5 +48,14 @@ dependencies {
     implementation 'org.jsoup:jsoup:1.14.3'
     implementation 'com.google.code.gson:gson:2.8.9'
     implementation("com.squareup.okhttp3:okhttp:4.9.0")
+
+    // The lite library only contains the map, the traffic layer,
+    // LocationManager, and UserLocationLayer and lets you download offline maps (in the paid version only).
+    implementation 'com.yandex.android:maps.mobile:4.0.0-lite'
+
+    // The full library supplements the lite version features with car routing,
+    // bike routing, pedestrian routing, and public transport routing
+    // search, suggest, geocoding, and panorama display.
+    // implementation 'com.yandex.android:maps.mobile:4.0.0-full'
 
 }
