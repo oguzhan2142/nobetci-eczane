@@ -118,5 +118,11 @@ public class MainActivityViewModel extends ViewModel {
     }
 
 
-   
+    public double getUserLongitude() {
+        return userLongitude;
+    }
+
+    public double getUserLatitude() {
+        return userLatitude;
+    }
 }
