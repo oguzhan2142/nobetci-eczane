@@ -1,5 +1,7 @@
 package com.oguzhan.nobetcieczane.repositories;
 
+import android.util.Log;
+
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -14,7 +16,11 @@ import com.oguzhan.nobetcieczane.model.Pharmacy;
 import com.oguzhan.nobetcieczane.utils.Config;
 
 import java.io.IOException;
+import java.net.UnknownHostException;
+import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 
+import okhttp3.CacheControl;
 import okhttp3.Headers;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -41,8 +47,10 @@ public class NosyRepository extends Repository {
     public Pharmacy[] getPharmacies(String city, String county) {
         Pharmacy[] pharmacies = null;
         try {
+
             Request request = new Request.Builder()
                     .url(baseUrl + String.format("?city=%s&county=%s", city, county))
+
                     .headers(headers)
                     .build();
             Response response = client.newCall(request).execute();
@@ -143,6 +151,7 @@ public class NosyRepository extends Repository {
                 .headers(headers)
                 .build();
         try {
+
             Response response = client.newCall(request).execute();
 
             ResponseBody responseBody = response.body();
@@ -156,7 +165,14 @@ public class NosyRepository extends Repository {
             return jsonElement.getAsJsonObject().getAsJsonArray("data");
 
 
-        } catch (IOException | ParseWebSiteException e) {
+        }catch (UnknownHostException e){
+            e.printStackTrace();
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        } catch (ParseWebSiteException e) {
+
+
             e.printStackTrace();
         }
 

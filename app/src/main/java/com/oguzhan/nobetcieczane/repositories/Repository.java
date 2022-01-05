@@ -7,7 +7,10 @@ import com.oguzhan.nobetcieczane.model.Pharmacy;
 
 
 /**
- * Active repository is <b>NosyRepository<b/>
+ * we can change data source easilly with implementation of other repositories
+ *
+ * Right now active repository is <b>NosyRepository<b/>
+ *
  */
 abstract public class Repository {
 

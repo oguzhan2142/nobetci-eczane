@@ -2,12 +2,9 @@ package com.oguzhan.nobetcieczane.model;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import com.google.gson.annotations.SerializedName;
-
-import org.json.JSONObject;
 
 public class NosyPharmacy extends Pharmacy {
+
 
     private String city;
     private String phone2;
@@ -21,10 +18,14 @@ public class NosyPharmacy extends Pharmacy {
         this.latitude = latitude;
         this.longitude = longitude;
         this.phone2 = phone2;
+
+
     }
 
+
+
     public static NosyPharmacy fromJson(JsonElement jsonElement) {
-;
+
         JsonObject jsonObject = jsonElement.getAsJsonObject();
 
 
@@ -42,6 +43,7 @@ public class NosyPharmacy extends Pharmacy {
         return new NosyPharmacy(name, address, desc, phone, neighborhood, county, city, latitude, longitude, phone2);
 
     }
+
 
     public String getCity() {
         return city;

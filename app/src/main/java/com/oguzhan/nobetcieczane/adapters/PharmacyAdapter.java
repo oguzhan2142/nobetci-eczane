@@ -1,6 +1,7 @@
 package com.oguzhan.nobetcieczane.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,8 +13,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.oguzhan.nobetcieczane.R;
 import com.oguzhan.nobetcieczane.model.NosyPharmacy;
+import com.oguzhan.nobetcieczane.view.RouteActivity;
 
 import java.util.ArrayList;
+
+import okhttp3.Route;
 
 public class PharmacyAdapter extends RecyclerView.Adapter<PharmacyAdapter.ViewHolder>{
 
@@ -37,11 +41,13 @@ public class PharmacyAdapter extends RecyclerView.Adapter<PharmacyAdapter.ViewHo
     public void onBindViewHolder(@NonNull PharmacyAdapter.ViewHolder holder, int position) {
         holder.nameTextview.setText(pharmacies.get(position).getName());
         holder.addressTextView.setText(pharmacies.get(position).getAddress());
-        // TODO distance not implemented
-        holder.navigationBtn.setText("12km");
+
+
+        holder.navigationBtn.setText("Go");
 
         holder.navigationBtn.setOnClickListener(view -> {
-
+            Intent intent = new Intent(context, RouteActivity.class);
+            context.startActivity(intent);
         });
     }
 

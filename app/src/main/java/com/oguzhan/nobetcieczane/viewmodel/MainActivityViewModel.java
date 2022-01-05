@@ -1,6 +1,7 @@
 package com.oguzhan.nobetcieczane.viewmodel;
 
 import android.os.AsyncTask;
+import android.util.Log;
 
 import androidx.databinding.ObservableArrayList;
 import androidx.lifecycle.LiveData;
@@ -17,9 +18,15 @@ import com.oguzhan.nobetcieczane.repositories.NosyRepository;
 import com.oguzhan.nobetcieczane.repositories.Repository;
 import com.oguzhan.nobetcieczane.utils.FetchingStatus;
 
+import java.io.IOException;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Objects;
+
+import okhttp3.HttpUrl;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 public class MainActivityViewModel extends ViewModel {
     private final Repository repository = new NosyRepository();
@@ -32,6 +39,9 @@ public class MainActivityViewModel extends ViewModel {
 
     public City selectedCity;
     public County selectedCounty;
+
+    private double userLongitude;
+    private double userLatitude;
 
     public void getCounties(City city) {
         new GetCountiesTask().execute(city);
@@ -46,6 +56,11 @@ public class MainActivityViewModel extends ViewModel {
         new GetCitiesTask().execute();
     }
 
+
+    public void updateUserLocation(double latitude, double longitude) {
+        userLongitude = longitude;
+        userLatitude = latitude;
+    }
 
     private class GetCountiesTask extends AsyncTask<City, Void, Void> {
 
@@ -84,4 +99,24 @@ public class MainActivityViewModel extends ViewModel {
         }
     }
 
+
+
+    public void onCountySelected(LocationData locationData){
+
+        if (locationData != null) {
+            selectedCounty = (County) locationData;
+            getPharmacies();
+        }
+    }
+    public void onCitySelected(LocationData locationData){
+        if (locationData != null) {
+
+            selectedCity = (City) locationData;
+            getCounties((City) locationData);
+        }
+
+    }
+
+
+   
 }
