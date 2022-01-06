@@ -17,6 +17,7 @@ import com.oguzhan.nobetcieczane.utils.Config;
 
 import java.io.IOException;
 import java.net.UnknownHostException;
+import java.util.Locale;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
@@ -43,14 +44,14 @@ public class NosyRepository extends Repository {
             .build();
 
 
-    @Override
-    public Pharmacy[] getPharmacies(String city, String county) {
+    private Pharmacy[] getPharmaciesWithUrl(String url) {
+
+
         Pharmacy[] pharmacies = null;
         try {
 
             Request request = new Request.Builder()
-                    .url(baseUrl + String.format("?city=%s&county=%s", city, county))
-
+                    .url(url)
                     .headers(headers)
                     .build();
             Response response = client.newCall(request).execute();
@@ -82,12 +83,28 @@ public class NosyRepository extends Repository {
 
 
         return pharmacies;
+
+    }
+
+    @Override
+    public Pharmacy[] getPharmacies(String city, String county) {
+
+        String url = baseUrl + String.format("?city=%s&county=%s", city, county);
+
+        return getPharmaciesWithUrl(url);
+    }
+
+    @Override
+    public Pharmacy[] getPharmaciesByGeoLocation(double latitude, double longitude) {
+        String url = baseUrl + String.format(Locale.ENGLISH, "/distance?latitude=%f&longitude=%f", latitude, longitude);
+
+        return getPharmaciesWithUrl(url);
     }
 
     @Override
     public City[] getCities() {
         try {
-            JsonArray dataArray = getDataArray("");
+            JsonArray dataArray = getDataArray("/city");
             if (dataArray == null) {
                 throw new ParseWebSiteException();
 
@@ -100,6 +117,7 @@ public class NosyRepository extends Repository {
                     cities[i] = locationData;
 
                 } catch (NullPointerException e) {
+                    // TODO handle exception
                     e.printStackTrace();
                 }
             }
@@ -108,6 +126,7 @@ public class NosyRepository extends Repository {
 
 
         } catch (ParseWebSiteException e) {
+            // TODO handle exception
             e.printStackTrace();
         }
         return null;
@@ -119,7 +138,7 @@ public class NosyRepository extends Repository {
 
 
         try {
-            JsonArray dataArray = getDataArray(String.format("?city=%s", city.getValue()));
+            JsonArray dataArray = getDataArray(String.format("/city?city=%s", city.getValue()));
             if (dataArray == null) {
                 throw new ParseWebSiteException();
 
@@ -132,6 +151,7 @@ public class NosyRepository extends Repository {
                     counties[i] = locationData;
 
                 } catch (NullPointerException e) {
+                    // TODO handle exception
                     e.printStackTrace();
                 }
             }
@@ -140,15 +160,16 @@ public class NosyRepository extends Repository {
 
 
         } catch (ParseWebSiteException e) {
+            // TODO handle exception
             e.printStackTrace();
         }
         return null;
 
     }
 
-    private JsonArray getDataArray(String cityQueryParameter) {
+    private JsonArray getDataArray(String additionAfterBaseUrl) {
         Request request = new Request.Builder()
-                .url(baseUrl + "/city" + cityQueryParameter)
+                .url(baseUrl + additionAfterBaseUrl)
                 .headers(headers)
                 .build();
         try {
@@ -166,15 +187,9 @@ public class NosyRepository extends Repository {
             return jsonElement.getAsJsonObject().getAsJsonArray("data");
 
 
-        }catch (UnknownHostException e){
+        } catch (IOException | ParseWebSiteException e) {
             e.printStackTrace();
-        }
-        catch (IOException e) {
-            e.printStackTrace();
-        } catch (ParseWebSiteException e) {
-
-
-            e.printStackTrace();
+            // TODO handle exception
         }
 
         return null;

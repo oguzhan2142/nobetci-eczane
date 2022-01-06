@@ -112,6 +112,11 @@ public class IstanbulEczaneOdasiRepository extends Repository {
     }
 
     @Override
+    public Pharmacy[] getPharmaciesByGeoLocation(double latitude, double longitude) {
+        return new Pharmacy[0];
+    }
+
+    @Override
     public City[] getCities() {
         return new City[0];
     }

@@ -66,7 +66,6 @@ public class MainActivity extends AppCompatActivity {
                 LOCATION_REFRESH_DISTANCE, location -> {
                     Log.d(TAG, "onCreate: location updated with " + location.getLatitude() + " : " + location.getLongitude());
                     viewModel.updateUserLocation(location.getLatitude(), location.getLongitude());
-                    pharmacyAdapter.updateLocation(location.getLatitude(), location.getLongitude());
                 });
 
         viewModel.cities.observe(this, cities -> {
@@ -89,28 +88,28 @@ public class MainActivity extends AppCompatActivity {
         viewModel.pharmacies.addOnListChangedCallback(new ObservableList.OnListChangedCallback<ObservableList<NosyPharmacy>>() {
             @Override
             public void onChanged(ObservableList<NosyPharmacy> sender) {
-                Log.d(TAG, "onChanged: item listesi degisti " + sender.size());
+
             }
 
             @Override
             public void onItemRangeChanged(ObservableList<NosyPharmacy> sender, int positionStart, int itemCount) {
-                onPharmaciesListChanged(pharmacyAdapter, positionStart, itemCount);
+                onPharmaciesListChanged(pharmacyAdapter);
             }
 
             @Override
             public void onItemRangeInserted(ObservableList<NosyPharmacy> sender, int positionStart, int itemCount) {
 
-                onPharmaciesListChanged(pharmacyAdapter, positionStart, itemCount);
+                onPharmaciesListChanged(pharmacyAdapter);
             }
 
             @Override
             public void onItemRangeMoved(ObservableList<NosyPharmacy> sender, int fromPosition, int toPosition, int itemCount) {
-
+                onPharmaciesListChanged(pharmacyAdapter);
             }
 
             @Override
             public void onItemRangeRemoved(ObservableList<NosyPharmacy> sender, int positionStart, int itemCount) {
-                onPharmaciesListChanged(pharmacyAdapter, positionStart, itemCount);
+                onPharmaciesListChanged(pharmacyAdapter);
 
             }
         });
@@ -126,11 +125,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    void onPharmaciesListChanged(PharmacyAdapter pharmacyAdapter, int positionStart, int itemCount) {
-        Log.d(TAG, "onPharmaciesListChanged: yeni eczele sayisi" + itemCount);
+    void onPharmaciesListChanged(PharmacyAdapter pharmacyAdapter) {
+
 
         runOnUiThread(() -> {
-            pharmacyAdapter.notifyItemRangeChanged(positionStart, itemCount);
+
+            pharmacyAdapter.notifyDataSetChanged();
+
 
             if (pharmacyAdapter.getItemCount() == 0) {
 

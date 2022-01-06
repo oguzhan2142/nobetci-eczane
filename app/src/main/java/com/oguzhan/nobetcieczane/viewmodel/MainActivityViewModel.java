@@ -1,14 +1,11 @@
 package com.oguzhan.nobetcieczane.viewmodel;
 
 import android.os.AsyncTask;
-import android.util.Log;
 
 import androidx.databinding.ObservableArrayList;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.oguzhan.nobetcieczane.adapters.PharmacyAdapter;
 import com.oguzhan.nobetcieczane.model.City;
 import com.oguzhan.nobetcieczane.model.County;
 import com.oguzhan.nobetcieczane.model.LocationData;
@@ -16,17 +13,6 @@ import com.oguzhan.nobetcieczane.model.NosyPharmacy;
 import com.oguzhan.nobetcieczane.model.Pharmacy;
 import com.oguzhan.nobetcieczane.repositories.NosyRepository;
 import com.oguzhan.nobetcieczane.repositories.Repository;
-import com.oguzhan.nobetcieczane.utils.FetchingStatus;
-
-import java.io.IOException;
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Objects;
-
-import okhttp3.HttpUrl;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
 
 public class MainActivityViewModel extends ViewModel {
     private final Repository repository = new NosyRepository();

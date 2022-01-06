@@ -17,6 +17,10 @@ abstract public class Repository {
 
     public abstract Pharmacy[] getPharmacies(String city, String county);
 
+    public abstract Pharmacy[] getPharmaciesByGeoLocation(double latitude, double longitude);
+
+
+
     public abstract City[] getCities();
 
     public abstract County[] getCounties(City city);

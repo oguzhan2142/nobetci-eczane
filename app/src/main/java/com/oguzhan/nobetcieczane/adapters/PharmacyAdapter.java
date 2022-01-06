@@ -19,13 +19,13 @@ import com.oguzhan.nobetcieczane.model.NosyPharmacy;
 
 import java.util.ArrayList;
 
-public class PharmacyAdapter extends RecyclerView.Adapter<PharmacyAdapter.ViewHolder> implements LocationListener {
+public class PharmacyAdapter extends RecyclerView.Adapter<PharmacyAdapter.ViewHolder> {
 
     private static final String TAG = "PharmacyAdapter";
     private final Context context;
     private ArrayList<NosyPharmacy> pharmacies;
-    private double userLatitude;
-    private double userLongitude;
+
+
 
     public PharmacyAdapter(Context context, ArrayList<NosyPharmacy> pharmacies) {
         this.context = context;
@@ -34,10 +34,7 @@ public class PharmacyAdapter extends RecyclerView.Adapter<PharmacyAdapter.ViewHo
 
     }
 
-    public void updateLocation(double userLatitude, double userLongitude){
-        this.userLatitude = userLatitude;
-        this.userLongitude = userLongitude;
-    }
+
 
     @NonNull
     @Override
@@ -52,10 +49,9 @@ public class PharmacyAdapter extends RecyclerView.Adapter<PharmacyAdapter.ViewHo
         holder.addressTextView.setText(pharmacies.get(position).getAddress());
 
 
-        holder.navigationBtn.setText("Go");
 
+        holder.navigationBtn.setText(R.string.go);
         holder.navigationBtn.setOnClickListener(view -> {
-
 
             double latitude = pharmacies.get(position).getLatitude();
             double longitude = pharmacies.get(position).getLongitude();
@@ -73,10 +69,7 @@ public class PharmacyAdapter extends RecyclerView.Adapter<PharmacyAdapter.ViewHo
         return pharmacies.size();
     }
 
-    @Override
-    public void onLocationChanged(@NonNull Location location) {
 
-    }
 
 
     protected class ViewHolder extends RecyclerView.ViewHolder {

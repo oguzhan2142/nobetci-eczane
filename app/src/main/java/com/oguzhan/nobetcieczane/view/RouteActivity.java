@@ -23,6 +23,17 @@ import com.yandex.mapkit.mapview.MapView;
 
 
 
+
+/**
+ * TODO not completely implemented yet
+ *
+ * This activity responsible for open yandex maps inside app
+ * Currently it can open map but there are much to do
+ * For example we have to calculate locations on map and pin them
+ * after that we need to draw road between two pin location
+ *
+ */
+
 public class RouteActivity extends AppCompatActivity {
 
     public final static String latitudeBundleTag = "Latitude";
@@ -48,22 +59,18 @@ public class RouteActivity extends AppCompatActivity {
         Log.d(TAG, "onCreate:  " + longitudeOfPharmacy);
 
 
-        mapview = (MapView)findViewById(R.id.mapview);
+        mapview = findViewById(R.id.mapview);
 
 
 
 
-        mapview.getMap().addTapListener(new GeoObjectTapListener() {
-            @Override
-            public boolean onObjectTap(@NonNull GeoObjectTapEvent geoObjectTapEvent) {
-                String name = geoObjectTapEvent.getGeoObject().getName();
+        mapview.getMap().addTapListener(geoObjectTapEvent -> {
+            String name = geoObjectTapEvent.getGeoObject().getName();
 
 
-                Log.d("TAG", "onObjectTap: " + name);
-                return true;
-            }
+            Log.d("TAG", "onObjectTap: " + name);
+            return true;
         });
-        mapview.setFocusPoint(new ScreenPoint((float)latitudeOfPharmacy,(float)longitudeOfPharmacy));
 
         mapview.getMap().move(
                 new CameraPosition(new Point(latitudeOfPharmacy, longitudeOfPharmacy), 14.0f, 0.0f, 0.0f),
