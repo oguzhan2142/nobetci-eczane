@@ -27,7 +27,7 @@ public final class LocalDatabase {
         public static final String COLUMN_NAME_PHARMACY_ADDRESS = "address";
         public static final String COLUMN_NAME_LATITUDE = "latitude";
         public static final String COLUMN_NAME_LONGITUDE = "longitude";
-
+        public static final String COLUMN_NAME_TIMESTAMP = "Timestamp";
     }
 
 

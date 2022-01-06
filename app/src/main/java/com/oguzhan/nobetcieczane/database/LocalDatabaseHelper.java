@@ -19,7 +19,7 @@ public class LocalDatabaseHelper extends SQLiteOpenHelper {
                     LocalDatabase.NavigationLog.COLUMN_NAME_PHARMACY_ADDRESS + " TEXT," +
                     LocalDatabase.NavigationLog.COLUMN_NAME_LATITUDE + " REAL," +
                     LocalDatabase.NavigationLog.COLUMN_NAME_LONGITUDE + " REAL," +
-                    "Timestamp DATETIME DEFAULT CURRENT_TIMESTAMP)";
+                    LocalDatabase.NavigationLog.COLUMN_NAME_TIMESTAMP + "  DATETIME DEFAULT CURRENT_TIMESTAMP)";
 
 
     private static final String SQL_DELETE_ENTER_LOG =

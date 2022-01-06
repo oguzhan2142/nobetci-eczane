@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.oguzhan.nobetcieczane.R;
 import com.oguzhan.nobetcieczane.interfaces.NavigationButtonTapListener;
 import com.oguzhan.nobetcieczane.model.NosyPharmacy;
+import com.oguzhan.nobetcieczane.utils.GoogleMapsIntentGenerator;
 
 import java.util.ArrayList;
 
@@ -26,7 +27,6 @@ public class PharmacyAdapter extends RecyclerView.Adapter<PharmacyAdapter.ViewHo
     private ArrayList<NosyPharmacy> pharmacies;
 
 
-
     public PharmacyAdapter(Context context, ArrayList<NosyPharmacy> pharmacies, NavigationButtonTapListener navigationButtonTapListener) {
         this.context = context;
         this.pharmacies = pharmacies;
@@ -34,7 +34,6 @@ public class PharmacyAdapter extends RecyclerView.Adapter<PharmacyAdapter.ViewHo
 
 
     }
-
 
 
     @NonNull
@@ -50,7 +49,6 @@ public class PharmacyAdapter extends RecyclerView.Adapter<PharmacyAdapter.ViewHo
         holder.addressTextView.setText(pharmacies.get(position).getAddress());
 
 
-
         holder.navigationBtn.setText(R.string.go);
         holder.navigationBtn.setOnClickListener(view -> {
             NosyPharmacy pharmacy = pharmacies.get(position);
@@ -58,10 +56,8 @@ public class PharmacyAdapter extends RecyclerView.Adapter<PharmacyAdapter.ViewHo
             navigationButtonTapListener.onNavigationTapped(pharmacy);
             double latitude = pharmacy.getLatitude();
             double longitude = pharmacy.getLongitude();
+            Intent mapIntent = GoogleMapsIntentGenerator.create(latitude, longitude);
 
-            Uri gmmIntentUri = Uri.parse("google.navigation:q="+latitude+","+longitude + "&mode=d");
-            Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
-            mapIntent.setPackage("com.google.android.apps.maps");
             context.startActivity(mapIntent);
 
 
@@ -72,8 +68,6 @@ public class PharmacyAdapter extends RecyclerView.Adapter<PharmacyAdapter.ViewHo
     public int getItemCount() {
         return pharmacies.size();
     }
-
-
 
 
     protected class ViewHolder extends RecyclerView.ViewHolder {
