@@ -28,6 +28,8 @@ import com.oguzhan.nobetcieczane.utils.Config;
 import com.oguzhan.nobetcieczane.viewmodel.MainActivityViewModel;
 import com.yandex.mapkit.MapKitFactory;
 
+import java.util.Locale;
+
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "main activity";
@@ -41,13 +43,14 @@ public class MainActivity extends AppCompatActivity {
     private TextView noPharmacyTextview;
     private TextView resultInfoTextview;
     private FloatingActionButton fab;
+    private MainActivityViewModel viewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         MapKitFactory.setApiKey(Config.yandexMapKitAPIKey);
-        MainActivityViewModel viewModel = new ViewModelProvider(this).get(MainActivityViewModel.class);
+        viewModel = new ViewModelProvider(this).get(MainActivityViewModel.class);
 
 
         areaFilterDropdown = findViewById(R.id.area_filter);
@@ -142,8 +145,13 @@ public class MainActivity extends AppCompatActivity {
         runOnUiThread(() -> {
 
             pharmacyAdapter.notifyDataSetChanged();
-
-
+            if (viewModel.lastPharmaciesFetchWithFab) {
+                String text = String.format(Locale.getDefault(), "Mevcut konuma göre eczaneler listeleniyor\n(Enlem:%f, Boylam:%f)", viewModel.getUserLatitude(), viewModel.getUserLongitude());
+                resultInfoTextview.setText(text);
+            } else {
+                String text = String.format(Locale.getDefault(), "%s ili %s ilçesindeki eczaneler listeleniyor", viewModel.selectedCity.getName(), viewModel.selectedCounty.getName());
+                resultInfoTextview.setText(text);
+            }
             if (pharmacyAdapter.getItemCount() == 0) {
 
                 pharmaciesRecyclerView.setVisibility(View.GONE);

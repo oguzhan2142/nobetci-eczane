@@ -24,6 +24,7 @@ public class MainActivityViewModel extends ViewModel {
     public MutableLiveData<Boolean> isPharmaciesLoading = new MutableLiveData<Boolean>(true);
 
     public ObservableArrayList<NosyPharmacy> pharmacies = new ObservableArrayList<>();
+    public boolean lastPharmaciesFetchWithFab = false;
 
     public City selectedCity;
     public County selectedCounty;
@@ -87,8 +88,10 @@ public class MainActivityViewModel extends ViewModel {
             if (fetchWithFab) {
 
                 pharmacies = repository.getPharmaciesByGeoLocation(userLatitude, userLongitude);
+                lastPharmaciesFetchWithFab = true;
             } else {
                 pharmacies = repository.getPharmacies(selectedCity.getValue(), selectedCounty.getValue());
+                lastPharmaciesFetchWithFab = false;
             }
 
             MainActivityViewModel.this.pharmacies.clear();
