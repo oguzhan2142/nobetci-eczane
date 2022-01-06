@@ -40,7 +40,6 @@ public class MainActivity extends AppCompatActivity {
     private ProgressBar circularProgressIndicator;
     private TextView noPharmacyTextview;
     private TextView resultInfoTextview;
-    private FloatingActionButton fab;
     private MainActivityViewModel viewModel;
 
     @Override
@@ -56,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
         pharmaciesRecyclerView = findViewById(R.id.pharmacies_list);
         noPharmacyTextview = findViewById(R.id.no_pharmacy_text);
         resultInfoTextview = findViewById(R.id.result_type_info_text);
-        fab = findViewById(R.id.floatingActionButton);
+        FloatingActionButton fab = findViewById(R.id.floatingActionButton);
 
         viewModel.createAppEnterLog();
 
