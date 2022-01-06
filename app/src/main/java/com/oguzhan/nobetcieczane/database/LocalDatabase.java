@@ -14,6 +14,8 @@ public final class LocalDatabase {
     /* Inner class that defines the table contents */
     public static class EnterLog implements BaseColumns{
         public static final String TABLE_NAME = "enter_log";
+        public static final String COLUMN_NAME_TIMESTAMP = "Timestamp";
+
 
     }
 

@@ -9,8 +9,8 @@ public class LocalDatabaseHelper extends SQLiteOpenHelper {
 
     private static final String SQL_CREATE_ENTER_LOG =
             "CREATE TABLE " + LocalDatabase.EnterLog.TABLE_NAME + " (" +
-                    LocalDatabase.EnterLog._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
-                    "Timestamp DATETIME DEFAULT CURRENT_TIMESTAMP)";
+                    LocalDatabase.EnterLog._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+                    + LocalDatabase.EnterLog.COLUMN_NAME_TIMESTAMP + " DATETIME DEFAULT CURRENT_TIMESTAMP)";
 
     private static final String SQL_CREATE_NAVIGATION_LOG =
             "CREATE TABLE " + LocalDatabase.NavigationLog.TABLE_NAME + " (" +
@@ -28,14 +28,12 @@ public class LocalDatabaseHelper extends SQLiteOpenHelper {
             "DROP TABLE IF EXISTS " + LocalDatabase.EnterLog.TABLE_NAME;
 
 
-
     public static final int DATABASE_VERSION = 1;
     public static final String DATABASE_NAME = "NobetciEczane.db";
 
     public LocalDatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
-
 
 
     public void onCreate(SQLiteDatabase db) {

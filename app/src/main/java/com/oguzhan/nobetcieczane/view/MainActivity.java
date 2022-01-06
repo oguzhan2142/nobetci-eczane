@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
         PharmacyAdapter pharmacyAdapter = new PharmacyAdapter(this, viewModel.pharmacies,
                 pharmacy -> viewModel.createNavigationLog(pharmacy));
         pharmaciesRecyclerView.setAdapter(pharmacyAdapter);
-
+        findViewById(R.id.history_btn).setOnClickListener(viewModel::onHistoryButtonClicked);
 
         LocationManager mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
 
@@ -75,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
         }
         mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, LOCATION_REFRESH_TIME,
                 LOCATION_REFRESH_DISTANCE, location -> {
-                    Log.d(TAG, "onCreate: location updated with " + location.getLatitude() + " : " + location.getLongitude());
+
                     viewModel.updateUserLocation(location.getLatitude(), location.getLongitude());
                 });
 

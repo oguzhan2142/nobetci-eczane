@@ -1,6 +1,8 @@
 package com.oguzhan.nobetcieczane.viewmodel;
 
 import android.app.Application;
+import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.view.View;
 
@@ -17,11 +19,11 @@ import com.oguzhan.nobetcieczane.model.Pharmacy;
 import com.oguzhan.nobetcieczane.repositories.DatabaseRepository;
 import com.oguzhan.nobetcieczane.repositories.NosyRepository;
 import com.oguzhan.nobetcieczane.repositories.Repository;
+import com.oguzhan.nobetcieczane.view.HistoryActivity;
 
 public class MainActivityViewModel extends AndroidViewModel {
     private final Repository nosyRepository = new NosyRepository();
     private final DatabaseRepository databaseRepository = new DatabaseRepository(getApplication().getApplicationContext());
-
 
 
     public MutableLiveData<City[]> cities = new MutableLiveData<>();
@@ -42,11 +44,11 @@ public class MainActivityViewModel extends AndroidViewModel {
     }
 
 
-    public void createNavigationLog(NosyPharmacy pharmacy){
+    public void createNavigationLog(NosyPharmacy pharmacy) {
         databaseRepository.insertNavigationLog(pharmacy);
     }
 
-    public void createAppEnterLog(){
+    public void createAppEnterLog() {
         databaseRepository.insertAppEntryLog();
     }
 
@@ -71,6 +73,13 @@ public class MainActivityViewModel extends AndroidViewModel {
 
     public void onFabClicked(View view) {
         new GetPharmaciesTask().execute(true);
+    }
+
+    public void onHistoryButtonClicked(View view) {
+        Context context = getApplication().getApplicationContext();
+        Intent intent = new Intent(context, HistoryActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(intent);
     }
 
     private class GetCountiesTask extends AsyncTask<City, Void, Void> {

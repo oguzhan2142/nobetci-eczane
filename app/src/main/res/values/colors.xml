@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#020202</color>
-    <color name="background">#F2D5C0</color>
-    <color name="white">#F7F7F7</color>
-    <color name="pure_white">#FFFFFF</color>
-    <color name="grey">#A0A4A5</color>
+
+
+    <color name="imperial_red">#EF233C</color>
+    <color name="amaranth_red">#D90429</color>
+    <color name="alice_blue">#EDF2F4</color>
+    <color name="manatee">#8D99AE</color>
+    <color name="space_cadet">#2B2D42</color>
+
+
+
 </resources>

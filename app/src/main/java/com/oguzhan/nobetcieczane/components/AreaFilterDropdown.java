@@ -78,7 +78,7 @@ public class AreaFilterDropdown extends LinearLayout {
 
 
         View verticalDivider = new View(getContext());
-        verticalDivider.setBackgroundColor(getResources().getColor(R.color.grey));
+        verticalDivider.setBackgroundColor(getResources().getColor(R.color.manatee));
         addView(verticalDivider, new ViewGroup.LayoutParams(2,ViewGroup.LayoutParams.MATCH_PARENT));
 
 
