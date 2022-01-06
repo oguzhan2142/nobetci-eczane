@@ -2,8 +2,6 @@ package com.oguzhan.nobetcieczane.adapters;
 
 import android.content.Context;
 import android.content.Intent;
-import android.location.Location;
-import android.location.LocationListener;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.oguzhan.nobetcieczane.R;
+import com.oguzhan.nobetcieczane.interfaces.NavigationButtonTapListener;
 import com.oguzhan.nobetcieczane.model.NosyPharmacy;
 
 import java.util.ArrayList;
@@ -23,13 +22,15 @@ public class PharmacyAdapter extends RecyclerView.Adapter<PharmacyAdapter.ViewHo
 
     private static final String TAG = "PharmacyAdapter";
     private final Context context;
+    private NavigationButtonTapListener navigationButtonTapListener;
     private ArrayList<NosyPharmacy> pharmacies;
 
 
 
-    public PharmacyAdapter(Context context, ArrayList<NosyPharmacy> pharmacies) {
+    public PharmacyAdapter(Context context, ArrayList<NosyPharmacy> pharmacies, NavigationButtonTapListener navigationButtonTapListener) {
         this.context = context;
         this.pharmacies = pharmacies;
+        this.navigationButtonTapListener = navigationButtonTapListener;
 
 
     }
@@ -52,9 +53,12 @@ public class PharmacyAdapter extends RecyclerView.Adapter<PharmacyAdapter.ViewHo
 
         holder.navigationBtn.setText(R.string.go);
         holder.navigationBtn.setOnClickListener(view -> {
+            NosyPharmacy pharmacy = pharmacies.get(position);
 
-            double latitude = pharmacies.get(position).getLatitude();
-            double longitude = pharmacies.get(position).getLongitude();
+            navigationButtonTapListener.onNavigationTapped(pharmacy);
+            double latitude = pharmacy.getLatitude();
+            double longitude = pharmacy.getLongitude();
+
             Uri gmmIntentUri = Uri.parse("google.navigation:q="+latitude+","+longitude + "&mode=d");
             Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
             mapIntent.setPackage("com.google.android.apps.maps");

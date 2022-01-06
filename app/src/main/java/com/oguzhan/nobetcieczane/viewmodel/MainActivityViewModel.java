@@ -1,27 +1,32 @@
 package com.oguzhan.nobetcieczane.viewmodel;
 
+import android.app.Application;
 import android.os.AsyncTask;
 import android.view.View;
 
+import androidx.annotation.NonNull;
 import androidx.databinding.ObservableArrayList;
+import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
 
 import com.oguzhan.nobetcieczane.model.City;
 import com.oguzhan.nobetcieczane.model.County;
 import com.oguzhan.nobetcieczane.model.LocationData;
 import com.oguzhan.nobetcieczane.model.NosyPharmacy;
 import com.oguzhan.nobetcieczane.model.Pharmacy;
+import com.oguzhan.nobetcieczane.repositories.DatabaseRepository;
 import com.oguzhan.nobetcieczane.repositories.NosyRepository;
 import com.oguzhan.nobetcieczane.repositories.Repository;
 
-public class MainActivityViewModel extends ViewModel {
-    private final Repository repository = new NosyRepository();
+public class MainActivityViewModel extends AndroidViewModel {
+    private final Repository nosyRepository = new NosyRepository();
+    private final DatabaseRepository databaseRepository = new DatabaseRepository(getApplication().getApplicationContext());
+
 
 
     public MutableLiveData<City[]> cities = new MutableLiveData<>();
     public MutableLiveData<County[]> counties = new MutableLiveData<>();
-    public MutableLiveData<Boolean> isPharmaciesLoading = new MutableLiveData<Boolean>(true);
+    public MutableLiveData<Boolean> isPharmaciesLoading = new MutableLiveData<>(true);
 
     public ObservableArrayList<NosyPharmacy> pharmacies = new ObservableArrayList<>();
     public boolean lastPharmaciesFetchWithFab = false;
@@ -32,6 +37,18 @@ public class MainActivityViewModel extends ViewModel {
     private double userLongitude;
     private double userLatitude;
 
+    public MainActivityViewModel(@NonNull Application application) {
+        super(application);
+    }
+
+
+    public void createNavigationLog(NosyPharmacy pharmacy){
+        databaseRepository.insertNavigationLog(pharmacy);
+    }
+
+    public void createAppEnterLog(){
+        databaseRepository.insertAppEntryLog();
+    }
 
     public void getCounties(City city) {
         new GetCountiesTask().execute(city);
@@ -47,6 +64,7 @@ public class MainActivityViewModel extends ViewModel {
 
 
     public void updateUserLocation(double latitude, double longitude) {
+
         userLongitude = longitude;
         userLatitude = latitude;
     }
@@ -59,7 +77,7 @@ public class MainActivityViewModel extends ViewModel {
 
         @Override
         protected Void doInBackground(City... city) {
-            County[] counties = repository.getCounties(city[0]);
+            County[] counties = nosyRepository.getCounties(city[0]);
             MainActivityViewModel.this.counties.postValue(counties);
             return null;
         }
@@ -70,7 +88,7 @@ public class MainActivityViewModel extends ViewModel {
 
         @Override
         protected Void doInBackground(Void... voids) {
-            City[] cities = repository.getCities();
+            City[] cities = nosyRepository.getCities();
             MainActivityViewModel.this.cities.postValue(cities);
             return null;
         }
@@ -87,17 +105,17 @@ public class MainActivityViewModel extends ViewModel {
             Pharmacy[] pharmacies;
             if (fetchWithFab) {
 
-                pharmacies = repository.getPharmaciesByGeoLocation(userLatitude, userLongitude);
+                pharmacies = nosyRepository.getPharmaciesByGeoLocation(userLatitude, userLongitude);
                 lastPharmaciesFetchWithFab = true;
             } else {
-                pharmacies = repository.getPharmacies(selectedCity.getValue(), selectedCounty.getValue());
+                pharmacies = nosyRepository.getPharmacies(selectedCity.getValue(), selectedCounty.getValue());
                 lastPharmaciesFetchWithFab = false;
             }
 
             MainActivityViewModel.this.pharmacies.clear();
 
-            for (int i = 0; i < pharmacies.length; i++) {
-                MainActivityViewModel.this.pharmacies.add((NosyPharmacy) pharmacies[i]);
+            for (Pharmacy pharmacy : pharmacies) {
+                MainActivityViewModel.this.pharmacies.add((NosyPharmacy) pharmacy);
             }
 
             isPharmaciesLoading.postValue(false);

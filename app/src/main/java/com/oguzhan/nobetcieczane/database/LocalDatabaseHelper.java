@@ -6,13 +6,6 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class LocalDatabaseHelper extends SQLiteOpenHelper {
 
-//    private static final String SQL_CREATE_ENTER_LOG =
-//            "CREATE TABLE " + LocalDatabase.EnterLog.TABLE_NAME + " (" +
-//                    LocalDatabase.EnterLog._ID + " INTEGER PRIMARY KEY," +
-//                    LocalDatabase.EnterLog.COLUMN_NAME_LATITUDE + " REAL," +
-//                    LocalDatabase.EnterLog.COLUMN_NAME_LONGITUDE + " REAL," +
-//                    LocalDatabase.EnterLog.COLUMN_NAME_DATE + " TEXT)";
-//
 
     private static final String SQL_CREATE_ENTER_LOG =
             "CREATE TABLE " + LocalDatabase.EnterLog.TABLE_NAME + " (" +

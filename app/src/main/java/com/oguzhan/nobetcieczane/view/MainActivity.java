@@ -1,9 +1,7 @@
 package com.oguzhan.nobetcieczane.view;
 
 import android.Manifest;
-import android.content.ContentValues;
 import android.content.pm.PackageManager;
-import android.database.sqlite.SQLiteDatabase;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
@@ -18,15 +16,12 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.oguzhan.nobetcieczane.R;
 import com.oguzhan.nobetcieczane.adapters.PharmacyAdapter;
 import com.oguzhan.nobetcieczane.components.AreaFilterDropdown;
 import com.oguzhan.nobetcieczane.model.NosyPharmacy;
-import com.oguzhan.nobetcieczane.database.LocalDatabase;
-import com.oguzhan.nobetcieczane.database.LocalDatabaseHelper;
 import com.oguzhan.nobetcieczane.utils.Config;
 import com.oguzhan.nobetcieczane.viewmodel.MainActivityViewModel;
 import com.yandex.mapkit.MapKitFactory;
@@ -56,28 +51,6 @@ public class MainActivity extends AppCompatActivity {
         viewModel = new ViewModelProvider(this).get(MainActivityViewModel.class);
 
 
-        LocalDatabaseHelper helper = new LocalDatabaseHelper(this);
-
-        SQLiteDatabase db = helper.getWritableDatabase();
-
-
-        db.execSQL("insert into " + LocalDatabase.EnterLog.TABLE_NAME + " DEFAULT VALUES");
-
-        ContentValues navValues = new ContentValues();
-        navValues.put(LocalDatabase.NavigationLog.COLUMN_NAME_LONGITUDE, 1);
-        navValues.put(LocalDatabase.NavigationLog.COLUMN_NAME_LATITUDE, 2.2);
-        navValues.put(LocalDatabase.NavigationLog.COLUMN_NAME_PHARMACY_NAME, "deneme ad");
-        navValues.put(LocalDatabase.NavigationLog.COLUMN_NAME_PHARMACY_ADDRESS, "deneme adres");
-        db.insert(LocalDatabase.NavigationLog.TABLE_NAME, null, navValues);
-
-
-//        ContentValues enterValues = new ContentValues();
-//        Date date = new Date();
-//        enterValues.put(LocalDatabase.EnterLog.COLUMN_NAME_DATE, date.toString());
-
-//        db.insert(LocalDatabase.EnterLog.TABLE_NAME, null, null);
-
-
         areaFilterDropdown = findViewById(R.id.area_filter);
         circularProgressIndicator = findViewById(R.id.progress_indicator);
         pharmaciesRecyclerView = findViewById(R.id.pharmacies_list);
@@ -85,11 +58,13 @@ public class MainActivity extends AppCompatActivity {
         resultInfoTextview = findViewById(R.id.result_type_info_text);
         fab = findViewById(R.id.floatingActionButton);
 
+        viewModel.createAppEnterLog();
 
         pharmaciesRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
 
-        PharmacyAdapter pharmacyAdapter = new PharmacyAdapter(this, viewModel.pharmacies);
+        PharmacyAdapter pharmacyAdapter = new PharmacyAdapter(this, viewModel.pharmacies,
+                pharmacy -> viewModel.createNavigationLog(pharmacy));
         pharmaciesRecyclerView.setAdapter(pharmacyAdapter);
 
 
