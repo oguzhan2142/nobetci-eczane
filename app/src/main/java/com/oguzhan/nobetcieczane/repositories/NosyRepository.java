@@ -70,6 +70,7 @@ public class NosyRepository extends Repository {
             for (int i = 0; i < dataArray.size(); i++) {
                 JsonElement element = dataArray.get(i);
                 Pharmacy pharmacy = NosyPharmacy.fromJson(element);
+
                 pharmacies[i] = pharmacy;
             }
 

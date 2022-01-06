@@ -34,6 +34,7 @@ public class MainActivityViewModel extends ViewModel {
 
     public MutableLiveData<City[]> cities = new MutableLiveData<>();
     public MutableLiveData<County[]> counties = new MutableLiveData<>();
+    public MutableLiveData<Boolean> isPharmaciesLoading =  new MutableLiveData<Boolean>(true);
 
     public ObservableArrayList<NosyPharmacy> pharmacies = new ObservableArrayList<>();
 
@@ -42,6 +43,7 @@ public class MainActivityViewModel extends ViewModel {
 
     private double userLongitude;
     private double userLatitude;
+
 
     public void getCounties(City city) {
         new GetCountiesTask().execute(city);
@@ -87,6 +89,7 @@ public class MainActivityViewModel extends ViewModel {
 
         @Override
         protected Void doInBackground(Void... voids) {
+            isPharmaciesLoading.postValue(true);
             Pharmacy[] pharmacies = repository.getPharmacies(selectedCity.getValue(), selectedCounty.getValue());
             MainActivityViewModel.this.pharmacies.clear();
 
@@ -94,7 +97,7 @@ public class MainActivityViewModel extends ViewModel {
                 MainActivityViewModel.this.pharmacies.add((NosyPharmacy) pharmacies[i]);
             }
 
-
+            isPharmaciesLoading.postValue(false);
             return null;
         }
     }

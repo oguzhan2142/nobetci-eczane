@@ -23,24 +23,30 @@ public class NosyPharmacy extends Pharmacy {
     }
 
 
-
     public static NosyPharmacy fromJson(JsonElement jsonElement) {
 
-        JsonObject jsonObject = jsonElement.getAsJsonObject();
+        try {
+
+            JsonObject jsonObject = jsonElement.getAsJsonObject();
 
 
-        String name = jsonObject.get("EczaneAdi").getAsString();
-        String address = jsonObject.get("Adresi").getAsString();
-        String neighborhood = jsonObject.get("Semt").getAsString();
-        String desc = jsonObject.get("YolTarifi").getAsString();
-        String phone = jsonObject.get("Telefon").getAsString();
-        String phone2 = jsonObject.get("Telefon2").getAsString();
-        String city = jsonObject.get("Sehir").getAsString();
-        String county = jsonObject.get("ilce").getAsString();
-        double latitude = jsonObject.get("latitude").getAsDouble();
-        double longitude = jsonObject.get("longitude").getAsDouble();
+            String name = jsonObject.get("EczaneAdi").getAsString();
+            String address = jsonObject.get("Adresi").getAsString();
+            String neighborhood = jsonObject.get("Semt").getAsString();
+            String desc = jsonObject.get("YolTarifi").getAsString();
+            String phone = jsonObject.get("Telefon").getAsString();
+            String phone2 = jsonObject.get("Telefon2").getAsString();
+            String city = jsonObject.get("Sehir").getAsString();
+            String county = jsonObject.get("ilce").getAsString();
+            double latitude = jsonObject.get("latitude").getAsDouble();
+            double longitude = jsonObject.get("longitude").getAsDouble();
 
-        return new NosyPharmacy(name, address, desc, phone, neighborhood, county, city, latitude, longitude, phone2);
+            return new NosyPharmacy(name, address, desc, phone, neighborhood, county, city, latitude, longitude, phone2);
+
+        } catch (Exception e) {
+            return null;
+        }
+
 
     }
 
