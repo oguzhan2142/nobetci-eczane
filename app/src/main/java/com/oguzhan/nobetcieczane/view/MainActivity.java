@@ -17,7 +17,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.progressindicator.CircularProgressIndicator;
+import com.google.android.material.snackbar.Snackbar;
 import com.oguzhan.nobetcieczane.R;
 import com.oguzhan.nobetcieczane.adapters.PharmacyAdapter;
 import com.oguzhan.nobetcieczane.components.AreaFilterDropdown;
@@ -37,6 +39,8 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView pharmaciesRecyclerView;
     private ProgressBar circularProgressIndicator;
     private TextView noPharmacyTextview;
+    private TextView resultInfoTextview;
+    private FloatingActionButton fab;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +54,10 @@ public class MainActivity extends AppCompatActivity {
         circularProgressIndicator = findViewById(R.id.progress_indicator);
         pharmaciesRecyclerView = findViewById(R.id.pharmacies_list);
         noPharmacyTextview = findViewById(R.id.no_pharmacy_text);
+        resultInfoTextview = findViewById(R.id.result_type_info_text);
+        fab = findViewById(R.id.floatingActionButton);
+
+
         pharmaciesRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
 
@@ -60,6 +68,7 @@ public class MainActivity extends AppCompatActivity {
         LocationManager mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            Snackbar.make(findViewById(R.id.parent_layout), "Eczaneleri görebilmek için konum izni vermeniz gerekir", Snackbar.LENGTH_LONG).show();
             return;
         }
         mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, LOCATION_REFRESH_TIME,
@@ -83,6 +92,8 @@ public class MainActivity extends AppCompatActivity {
 
         areaFilterDropdown.setOnCitySelectedListener(viewModel::onCitySelected);
         areaFilterDropdown.setOnCountySelectedListener(viewModel::onCountySelected);
+
+        fab.setOnClickListener(viewModel::onFabClicked);
 
 
         viewModel.pharmacies.addOnListChangedCallback(new ObservableList.OnListChangedCallback<ObservableList<NosyPharmacy>>() {

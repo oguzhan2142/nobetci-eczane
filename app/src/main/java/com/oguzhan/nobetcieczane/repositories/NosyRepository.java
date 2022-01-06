@@ -96,6 +96,7 @@ public class NosyRepository extends Repository {
 
     @Override
     public Pharmacy[] getPharmaciesByGeoLocation(double latitude, double longitude) {
+        Log.d("", "getPharmaciesByGeoLocation: aranan enlem- boylam" + latitude + " : " + longitude);
         String url = baseUrl + String.format(Locale.ENGLISH, "/distance?latitude=%f&longitude=%f", latitude, longitude);
 
         return getPharmaciesWithUrl(url);

@@ -1,5 +1,7 @@
 <resources>
-    <string name="app_name">Nobetci Eczane</string>
+    <string name="app_name">Nobetçi Eczane</string>
     <string name="no_pharmacy_found">Hiç bir eczane bulunamadı</string>
     <string name="go">Git</string>
+
+
 </resources>

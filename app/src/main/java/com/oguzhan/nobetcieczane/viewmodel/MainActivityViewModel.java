@@ -1,6 +1,7 @@
 package com.oguzhan.nobetcieczane.viewmodel;
 
 import android.os.AsyncTask;
+import android.view.View;
 
 import androidx.databinding.ObservableArrayList;
 import androidx.lifecycle.MutableLiveData;
@@ -20,7 +21,7 @@ public class MainActivityViewModel extends ViewModel {
 
     public MutableLiveData<City[]> cities = new MutableLiveData<>();
     public MutableLiveData<County[]> counties = new MutableLiveData<>();
-    public MutableLiveData<Boolean> isPharmaciesLoading =  new MutableLiveData<Boolean>(true);
+    public MutableLiveData<Boolean> isPharmaciesLoading = new MutableLiveData<Boolean>(true);
 
     public ObservableArrayList<NosyPharmacy> pharmacies = new ObservableArrayList<>();
 
@@ -33,11 +34,10 @@ public class MainActivityViewModel extends ViewModel {
 
     public void getCounties(City city) {
         new GetCountiesTask().execute(city);
-
     }
 
-    public void getPharmacies() {
-        new GetPharmaciesTask().execute();
+    public void getPharmaciesWithDropdown() {
+        new GetPharmaciesTask().execute(false);
     }
 
     public void getCities() {
@@ -48,6 +48,10 @@ public class MainActivityViewModel extends ViewModel {
     public void updateUserLocation(double latitude, double longitude) {
         userLongitude = longitude;
         userLatitude = latitude;
+    }
+
+    public void onFabClicked(View view) {
+        new GetPharmaciesTask().execute(true);
     }
 
     private class GetCountiesTask extends AsyncTask<City, Void, Void> {
@@ -71,12 +75,22 @@ public class MainActivityViewModel extends ViewModel {
         }
     }
 
-    private class GetPharmaciesTask extends AsyncTask<Void, Void, Void> {
+    private class GetPharmaciesTask extends AsyncTask<Boolean, Void, Void> {
+
 
         @Override
-        protected Void doInBackground(Void... voids) {
+        protected Void doInBackground(Boolean... booleans) {
+            boolean fetchWithFab = booleans[0];
+
             isPharmaciesLoading.postValue(true);
-            Pharmacy[] pharmacies = repository.getPharmacies(selectedCity.getValue(), selectedCounty.getValue());
+            Pharmacy[] pharmacies;
+            if (fetchWithFab) {
+
+                pharmacies = repository.getPharmaciesByGeoLocation(userLatitude, userLongitude);
+            } else {
+                pharmacies = repository.getPharmacies(selectedCity.getValue(), selectedCounty.getValue());
+            }
+
             MainActivityViewModel.this.pharmacies.clear();
 
             for (int i = 0; i < pharmacies.length; i++) {
@@ -89,15 +103,15 @@ public class MainActivityViewModel extends ViewModel {
     }
 
 
-
-    public void onCountySelected(LocationData locationData){
+    public void onCountySelected(LocationData locationData) {
 
         if (locationData != null) {
             selectedCounty = (County) locationData;
-            getPharmacies();
+            getPharmaciesWithDropdown();
         }
     }
-    public void onCitySelected(LocationData locationData){
+
+    public void onCitySelected(LocationData locationData) {
         if (locationData != null) {
 
             selectedCity = (City) locationData;
