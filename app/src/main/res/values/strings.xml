@@ -2,6 +2,9 @@
     <string name="app_name">Nobetçi Eczane</string>
     <string name="no_pharmacy_found">Hiç bir eczane bulunamadı</string>
     <string name="go">Git</string>
+    <string name="ok">Tamam</string>
+    <string name="title_location_permission">Konum İzni</string>
+    <string name="text_location_permission">Uygulamanın size yakın eczaneleri bulabilmek için konumunuza erişmesi gerekmektedir</string>
 
 
 </resources>
