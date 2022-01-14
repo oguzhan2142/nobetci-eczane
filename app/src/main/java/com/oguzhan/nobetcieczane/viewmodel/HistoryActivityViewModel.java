@@ -20,7 +20,7 @@ public class HistoryActivityViewModel extends AndroidViewModel {
 
     private final DatabaseRepository databaseRepository = new DatabaseRepository(getApplication().getApplicationContext());
 
-    public MutableLiveData<String> lastVisitedDate = new MutableLiveData<>();
+
     public MutableLiveData<Integer> visitedCount = new MutableLiveData<>();
 
 
@@ -31,17 +31,14 @@ public class HistoryActivityViewModel extends AndroidViewModel {
     }
 
 
-    public void getHistory() {
+    public void getNavigationLogs() {
         DbNavigationLog[] logs = databaseRepository.getNavigationLogs();
         navigationLogs.clear();
         navigationLogs.addAll(Arrays.asList(logs));
     }
 
-    public void getEnterLogs() {
+    public void initiateVisitedCount() {
         DbAppEntryLog[] logs = databaseRepository.getEntryLogs();
-
-        DbAppEntryLog lastLog = logs[logs.length - 1];
-        lastVisitedDate.setValue(lastLog.getDate());
         visitedCount.setValue(logs.length);
     }
 }

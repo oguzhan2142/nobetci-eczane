@@ -41,6 +41,7 @@ public class MainActivityViewModel extends AndroidViewModel {
 
     public MainActivityViewModel(@NonNull Application application) {
         super(application);
+        createAppEnterLog();
     }
 
 

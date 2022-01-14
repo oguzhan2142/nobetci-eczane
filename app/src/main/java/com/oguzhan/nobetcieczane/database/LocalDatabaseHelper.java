@@ -25,7 +25,7 @@ public class LocalDatabaseHelper extends SQLiteOpenHelper {
     private static final String SQL_DELETE_ENTER_LOG =
             "DROP TABLE IF EXISTS " + LocalDatabase.EnterLog.TABLE_NAME;
     private static final String SQL_DELETE_NAVIGATION_LOG =
-            "DROP TABLE IF EXISTS " + LocalDatabase.EnterLog.TABLE_NAME;
+            "DROP TABLE IF EXISTS " + LocalDatabase.NavigationLog.TABLE_NAME;
 
 
     public static final int DATABASE_VERSION = 1;

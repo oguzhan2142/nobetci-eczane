@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
         resultInfoTextview = findViewById(R.id.result_type_info_text);
         FloatingActionButton fab = findViewById(R.id.floatingActionButton);
 
-        viewModel.createAppEnterLog();
+
 
         pharmaciesRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 

@@ -63,8 +63,6 @@ public class DatabaseRepository {
             log.setDate(date);
             logs[counter] = log;
             counter++;
-
-
         }
 
         return logs;

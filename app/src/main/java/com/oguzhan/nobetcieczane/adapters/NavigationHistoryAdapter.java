@@ -26,7 +26,6 @@ public class NavigationHistoryAdapter extends RecyclerView.Adapter<NavigationHis
 
     public NavigationHistoryAdapter(Context context, ArrayList<DbNavigationLog> navigationLogs) {
         this.context = context;
-
         this.navigationLogs = navigationLogs;
     }
 
@@ -41,7 +40,7 @@ public class NavigationHistoryAdapter extends RecyclerView.Adapter<NavigationHis
     public void onBindViewHolder(@NonNull NavigationHistoryAdapter.ViewHolder holder, int position) {
         DbNavigationLog model = navigationLogs.get(position);
         holder.nameText.setText(model.getName());
-        holder.dateText.setText(String.format(Locale.getDefault(), "Son navigasyon: %s", model.getDate()));
+        holder.dateText.setText(String.format(new Locale("tr","TR"), "Son navigasyon: %s", model.getDate()));
         holder.navigateBtn.setText("Git");
         holder.navigateBtn.setOnClickListener(view -> {
             DbNavigationLog log = navigationLogs.get(position);
